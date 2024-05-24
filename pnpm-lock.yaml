@@ -8,9 +8,15 @@ importers:
 
   .:
     dependencies:
+      cookie:
+        specifier: ^0.6.0
+        version: 0.6.0
       node-fetch:
         specifier: ^3.3.2
         version: 3.3.2
+      user-agents:
+        specifier: ^1.1.214
+        version: 1.1.214
     devDependencies:
       '@types/node':
         specifier: ^20.12.12
@@ -24,6 +30,10 @@ packages:
   '@types/node@20.12.12':
     resolution: {integrity: sha512-eWLDGF/FOSPtAvEqeRAQ4C8LSA7M1I7i0ky1I8U7kD1J5ITyW3AsRhQrKVoWf5pFKZ2kILsEGJhsI9r93PYnOw==}
 
+  cookie@0.6.0:
+    resolution: {integrity: sha512-U71cyTamuh1CRNCfpGY6to28lxvNwPG4Guz/EVjgf3Jmzv0vlDp1atT9eS5dDjMYHucpHbWns6Lwf3BKz6svdw==}
+    engines: {node: '>= 0.6'}
+
   data-uri-to-buffer@4.0.1:
     resolution: {integrity: sha512-0R9ikRb668HB7QDxT1vkpuUBtqc53YyAwMwGeUFKRojY/NWKvdZ+9UYtRfGmhqNbRkTSVpMbmyhXipFFv2cb/A==}
     engines: {node: '>= 12'}
@@ -35,6 +45,9 @@ packages:
   formdata-polyfill@4.0.10:
     resolution: {integrity: sha512-buewHzMvYL29jdeQTVILecSaZKnt/RJWjoZCF5OW60Z67/GmSLBkOFM7qh1PI3zFNtJbaZL5eQu1vLfazOwj4g==}
     engines: {node: '>=12.20.0'}
+
+  lodash.clonedeep@4.5.0:
+    resolution: {integrity: sha512-H5ZhCF25riFd9uB5UCkVKo61m3S/xZk1x4wA6yp/L3RFP6Z/eHH1ymQcGLo7J3GMPfm0V/7m1tryHuGVxpqEBQ==}
 
   node-domexception@1.0.0:
     resolution: {integrity: sha512-/jKZoMpw0F8GRwl4/eLROPA3cfcXtLApP0QzLmUT/HuPCZWyB7IY9ZrMeKw2O/nFIqPQB3PVM9aYm0F312AXDQ==}
@@ -52,6 +65,9 @@ packages:
   undici-types@5.26.5:
     resolution: {integrity: sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==}
 
+  user-agents@1.1.214:
+    resolution: {integrity: sha512-6imd8kybVSaq6yAPE6rLGRpMpmT8cxR5FskztOhrr7q74CRhXnwPs8FDZK1scSwZr0KMJut/Q0XlYNsNMe9g1Q==}
+
   web-streams-polyfill@3.3.3:
     resolution: {integrity: sha512-d2JWLCivmZYTSIoge9MsgFCZrt571BikcWGYkjC1khllbTeDlGqZ2D8vD8E/lJa8WGWbb7Plm8/XJYV7IJHZZw==}
     engines: {node: '>= 8'}
@@ -61,6 +77,8 @@ snapshots:
   '@types/node@20.12.12':
     dependencies:
       undici-types: 5.26.5
+
+  cookie@0.6.0: {}
 
   data-uri-to-buffer@4.0.1: {}
 
@@ -73,6 +91,8 @@ snapshots:
     dependencies:
       fetch-blob: 3.2.0
 
+  lodash.clonedeep@4.5.0: {}
+
   node-domexception@1.0.0: {}
 
   node-fetch@3.3.2:
@@ -84,5 +104,9 @@ snapshots:
   typescript@5.4.5: {}
 
   undici-types@5.26.5: {}
+
+  user-agents@1.1.214:
+    dependencies:
+      lodash.clonedeep: 4.5.0
 
   web-streams-polyfill@3.3.3: {}

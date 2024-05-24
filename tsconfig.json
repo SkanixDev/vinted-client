@@ -4,7 +4,8 @@
     "moduleResolution": "NodeNext",
     "target": "ES6",
     "sourceMap": true,
-    "outDir": "dist"
+    "outDir": "dist",
+    "resolveJsonModule": true
   },
   "include": ["src/**/*"]
 }

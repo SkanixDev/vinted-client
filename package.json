@@ -16,6 +16,8 @@
     "typescript": "^5.4.5"
   },
   "dependencies": {
-    "node-fetch": "^3.3.2"
+    "cookie": "^0.6.0",
+    "node-fetch": "^3.3.2",
+    "user-agents": "^1.1.214"
   }
 }
