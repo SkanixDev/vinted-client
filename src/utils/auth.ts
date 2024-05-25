@@ -68,3 +68,19 @@ export async function newToken(refresh_token, access_token, xcsrf_token){
       return [null, null, null];
   }
 }
+
+export function checkExpiry(expiry: number): boolean {
+  const now = new Date().getTime();
+  return expiry < now;
+}
+
+export async function refreshToken() {
+  if (checkExpiry(config.expiry)) return;
+  console.log("Token Expired, refresh token")
+  const [newAccess, newRefresh, newExpiry] = await newToken(config.refreshToken, config.token, config["x-crf-token"]);
+  if (newAccess && newRefresh && newExpiry){
+      config.token = newAccess;
+      config.refreshToken = newRefresh;
+      config.expiry = newExpiry;
+  }
+}
