@@ -3,7 +3,7 @@ import UserAgent from "user-agents";
 import fs from "fs";
 import path from "path";
 
-//config
+//import config.json
 import config from "../config.json" assert { type: "json" };
 
 export const fetchCookie = async (domain = "fr") => {
@@ -109,24 +109,34 @@ export async function refreshToken(
   refresh_token: string,
   xcsrf_token: string
 ) {
-  if (!checkExpiry(config.expiry)) return;
+  if (checkExpiry(config.expiry)) {
+    try {
+      const [newAccess, newRefresh, newExpiry] = await newToken(
+        refresh_token,
+        access_token,
+        xcsrf_token
+      );
 
-  const [newAccess, newRefresh, newExpiry] = await newToken(
-    refresh_token,
-    access_token,
-    xcsrf_token
-  );
+      config.access_token = newAccess;
+      config.refresh_token = newRefresh;
+      config.expiry = newExpiry;
+      console.log(config);
+      console.log(path.resolve(import.meta.dirname, "../config.json"));
 
-  if (newAccess && newRefresh && newExpiry) {
-    config.access_token = newAccess;
-    config.refresh_token = newRefresh;
-    config.expiry = newExpiry;
-
-    fs.writeFileSync(
-      path.join(process.cwd(), "../config.json"),
-      JSON.stringify(config, null, 2)
-    );
-    return true;
+      if (newAccess && newRefresh && newExpiry) {
+        console.log(
+          "\x1b[31m%s\x1b[0m",
+          "tokens refreshed !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+        );
+        fs.writeFileSync(
+          path.resolve(import.meta.dirname, "../config.json"),
+          JSON.stringify(config)
+        );
+      }
+      return true;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
   }
-  return false;
 }
