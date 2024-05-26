@@ -1,71 +1,100 @@
-import fetch from 'node-fetch';
-import UserAgent from 'user-agents';
+import fetch from "node-fetch";
+import UserAgent from "user-agents";
+import fs from "fs";
+import path from "path";
 
-//config 
-import config from '../config.json' assert { type: 'json' };
+//config
+import config from "../config.json" assert { type: "json" };
 
-export const fetchCookie = async () => {
-    const response = await fetch(`https://vinted.${config.domain}/catalog`, {
+export const fetchCookie = async (domain = "fr") => {
+  const response = await fetch(`https://vinted.${config.domain}/catalog`, {
     headers: { "user-agent": new UserAgent().toString() },
   });
 
-  if (!response.ok) throw new Error(`Failed to fetch cookies. Status: ${response.status}`);
+  if (!response.ok)
+    throw new Error(`Failed to fetch cookies. Status: ${response.status}`);
 
   const sessionCookies = response.headers.raw()["set-cookie"];
-  if (!sessionCookies) throw new Error("set-cookie headers not found in the response");
+  if (!sessionCookies)
+    throw new Error("set-cookie headers not found in the response");
 
   const parsedCookies = Object.fromEntries(
-    sessionCookies.flatMap(cookieHeader => 
-      cookieHeader.split(';').map(cookie => cookie.trim().split('=').map(part => part.trim()))
+    sessionCookies.flatMap((cookieHeader) =>
+      cookieHeader.split(";").map((cookie) =>
+        cookie
+          .trim()
+          .split("=")
+          .map((part) => part.trim())
+      )
     )
   );
-  const requiredCookies = [ 'anon_id', '_vinted_fr_session'];
+  const requiredCookies = ["anon_id", "_vinted_fr_session"];
   const cookieHeader = requiredCookies.reduce((acc, cookie) => {
-    return parsedCookies[cookie] ? `${acc}${cookie}=${parsedCookies[cookie]}; ` : acc;
-  }, '');
+    return parsedCookies[cookie]
+      ? `${acc}${cookie}=${parsedCookies[cookie]}; `
+      : acc;
+  }, "");
 
   return cookieHeader;
 };
 
-export async function authorizedRequest(method, url, data, access_token, xcsrf_token){
+export async function authorizedRequest(
+  method: string,
+  url: string,
+  data,
+  access_token: string,
+  xcsrf_token: string
+): Promise<any> {
   const response = await fetch(url, {
-      "headers": {
-          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:126.0) Gecko/20100101 Firefox/126.0",
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${access_token}`,
-          "X-CSRF-Token": xcsrf_token
-      },
-      "body": JSON.stringify(data),
-      "method": method,
+    headers: {
+      "User-Agent":
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:126.0) Gecko/20100101 Firefox/126.0",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${access_token}`,
+      "X-CSRF-Token": xcsrf_token,
+    },
+    body: JSON.stringify(data),
+    method: method,
   });
-  console.log("making an authed request to "+url);
-  
-  if (response.headers.get('Content-Type').includes('text/html')) {
+  console.log("making an authed request to " + url);
+
+  if (response.headers.get("Content-Type").includes("text/html")) {
     console.log(response);
   }
   const responseData = await response.json();
+
   return responseData;
 }
 
-export async function newToken(refresh_token, access_token, xcsrf_token){
-  console.log('fetching new tokens');
+export async function newToken(
+  refresh_token: string,
+  access_token: string,
+  xcsrf_token: string
+): Promise<[string, string, number]> {
+  console.log("fetching new tokens");
   const body = {
-      "client_id": "web",
-      "scope": "user",
-      "grant_type": "refresh_token",
-      "refresh_token": refresh_token
+    client_id: "web",
+    scope: "user",
+    grant_type: "refresh_token",
+    refresh_token: refresh_token,
   };
 
   try {
-      const newTokens:any = await authorizedRequest("POST","https://www.vinted.fr/oauth/token", body, access_token, xcsrf_token);
+    const newTokens: any = await authorizedRequest(
+      "POST",
+      "https://www.vinted.fr/oauth/token",
+      body,
+      access_token,
+      xcsrf_token
+    );
 
-      const expiry = (newTokens.created_at + newTokens.expires_in)*1000;
+    const expiry = (newTokens.created_at + newTokens.expires_in) * 1000;
 
-      return [newTokens.access_token, newTokens.refresh_token, expiry];
+    return [newTokens.access_token, newTokens.refresh_token, expiry];
   } catch (error) {
-      console.log('error refreshing tokens');
-      console.error(error);
-      return [null, null, null];
+    console.log("error refreshing tokens");
+    console.error(error);
+    return [null, null, null];
   }
 }
 
@@ -74,13 +103,29 @@ export function checkExpiry(expiry: number): boolean {
   return expiry < now;
 }
 
-export async function refreshToken() {
-  if (checkExpiry(config.expiry)) return;
-  console.log("Token Expired, refresh token")
-  const [newAccess, newRefresh, newExpiry] = await newToken(config.refreshToken, config.token, config["x-crf-token"]);
-  if (newAccess && newRefresh && newExpiry){
-      config.token = newAccess;
-      config.refreshToken = newRefresh;
-      config.expiry = newExpiry;
+export async function refreshToken(
+  access_token: string,
+  refresh_token: string,
+  xcsrf_token: string
+) {
+  if (!checkExpiry(config.expiry)) return;
+
+  const [newAccess, newRefresh, newExpiry] = await newToken(
+    refresh_token,
+    access_token,
+    xcsrf_token
+  );
+
+  if (newAccess && newRefresh && newExpiry) {
+    config.token = newAccess;
+    config.refreshToken = newRefresh;
+    config.expiry = newExpiry;
+
+    fs.writeFileSync(
+      path.join(process.cwd(), "../config.json"),
+      JSON.stringify(config, null, 2)
+    );
+    return true;
   }
+  return false;
 }
