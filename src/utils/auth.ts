@@ -7,7 +7,7 @@ import path from "path";
 import config from "../config.json" assert { type: "json" };
 
 export const fetchCookie = async (domain = "fr") => {
-  const response = await fetch(`https://vinted.${config.domain}/catalog`, {
+  const response = await fetch(`https://vinted.${domain}/catalog`, {
     headers: { "user-agent": new UserAgent().toString() },
   });
 
@@ -89,6 +89,7 @@ export async function newToken(
     );
 
     const expiry = (newTokens.created_at + newTokens.expires_in) * 1000;
+    console.log(newTokens);
 
     return [newTokens.access_token, newTokens.refresh_token, expiry];
   } catch (error) {
@@ -117,8 +118,8 @@ export async function refreshToken(
   );
 
   if (newAccess && newRefresh && newExpiry) {
-    config.token = newAccess;
-    config.refreshToken = newRefresh;
+    config.access_token = newAccess;
+    config.refresh_token = newRefresh;
     config.expiry = newExpiry;
 
     fs.writeFileSync(
