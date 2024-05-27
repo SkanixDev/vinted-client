@@ -1,4 +1,4 @@
-# api-vinted
+# vinted-client
 
 ## Description
 

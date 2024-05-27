@@ -1,5 +1,5 @@
 {
-  "name": "api-vinted",
+  "name": "vinted-client",
   "version": "0.0.1",
   "description": "An unofficial API for Vinted",
   "main": "dist/index.js",
@@ -10,7 +10,7 @@
     "start": "node dist/index.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Sknaix",
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^20.12.12",
