@@ -1,7 +1,7 @@
 {
-  "name": "vinted-api",
-  "version": "1.0.0",
-  "description": "",
+  "name": "api-vinted",
+  "version": "0.0.1",
+  "description": "An unofficial API for Vinted",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "type": "module",
