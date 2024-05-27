@@ -228,3 +228,61 @@ interface NotificationsInterface {
   };
   code: number;
 }
+
+interface OrdersInterface {
+  my_orders: {
+    conversation_id: number;
+    title: string;
+    price: {
+      amount: string;
+      currency_code: string;
+    };
+    status: string | null;
+    date: string;
+    photo: {
+      id: number;
+      image_no: number;
+      width: number;
+      height: number;
+      dominant_color: string | null;
+      dominant_color_opaque: string | null;
+      url: string | null;
+      is_main: boolean;
+      thumbnails: {
+        type:
+          | "thumb70x100"
+          | "thumb150x210"
+          | "thumb310x430"
+          | "thumb428x624"
+          | "thumb624x428"
+          | "thumb364x428";
+        url: string | null;
+        width: number;
+        height: number;
+        original_size: boolean | null;
+      }[];
+      high_resolution: {
+        id: string;
+        timestamp: number;
+        orientation: any | null;
+      };
+      is_suspicious: boolean;
+      full_size_url: string | null;
+      is_hidden: boolean;
+    };
+    transaction_user_status:
+      | "completed"
+      | "in_progress"
+      | "canceled"
+      | "needs_action"
+      | "waiting";
+  }[];
+  pagination: {
+    page: number;
+    per_page: number;
+    current_page: number;
+    total_pages: number;
+    total_entries: number;
+    time: number;
+  };
+}

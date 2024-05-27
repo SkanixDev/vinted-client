@@ -1,4 +1,4 @@
-import { fetchCookie } from "./auth.js";
+import { fetchCookie, newToken } from "./auth.js";
 
 const default_headers = (access_token, xcsrf_token) => {
   return {
@@ -41,6 +41,8 @@ export class User {
   user: undefined | UserInformationsInterface;
   balance: undefined | BalanceInterface;
   initialized: boolean;
+  created_at: number;
+  expires_in: number;
 
   constructor(
     public access_token: string,
@@ -50,6 +52,8 @@ export class User {
     this.access_token = access_token;
     this.refresh_token = refresh_token;
     this.xcsrf_token = xcsrf_token;
+    this.created_at;
+    this.expires_in;
 
     this.initialized = false;
     this.user = undefined;
@@ -94,13 +98,35 @@ export class User {
     }
   }
 
+  async #refreshToken() {
+    if (
+      !this.initialized &&
+      (this.expires_in + this.created_at) * 1000 > Date.now()
+    )
+      return;
+    const [newAccess, newRefresh, newExpires_in, newCreated_at] =
+      await newToken(this.refresh_token, this.access_token, this.xcsrf_token);
+    this.access_token = newAccess;
+    this.refresh_token = newRefresh;
+    this.expires_in = newExpires_in;
+    this.created_at = newCreated_at;
+    console.log("------- Tokens refreshed -------");
+    console.info(
+      this.access_token,
+      this.refresh_token,
+      this.expires_in,
+      this.created_at
+    );
+  }
+
   async getNotifications(page?: number, per_page?: number) {
     if (!this.initialized) return "User is not initialized";
     try {
+      this.#refreshToken();
       const notifications = await fetch(
         `https://www.vinted.fr/api/v2/notifications?page=${
-          page ? page : 5
-        }&per_page=${per_page ? per_page : 1}`,
+          page ? page : 1
+        }&per_page=${per_page ? per_page : 5}`,
         {
           headers: default_headers(this.access_token, this.xcsrf_token),
         }
@@ -110,6 +136,33 @@ export class User {
       return notificationsJson;
     } catch (error) {
       console.error("Error fetching notifications");
+      return;
+    }
+  }
+
+  async getOrders(
+    type: "sold" | "purchased" | "all" = "all",
+    status: "all" | "in_progress" | "completed" | "canceled" = "all",
+    page?: number,
+    per_page?: number
+  ) {
+    if (!this.initialized) return "User is not initialized";
+    try {
+      this.#refreshToken();
+      const orders = await fetch(
+        `https://www.vinted.fr/api/v2/my_orders?type=${type}&status=${status}&page=${
+          page ? page : 1
+        }&per_page=${per_page ? per_page : 5}`,
+        {
+          headers: default_headers(this.access_token, this.xcsrf_token),
+          method: "GET",
+        }
+      );
+      const ordersJson: OrdersInterface = await orders.json();
+      return ordersJson;
+    } catch (error) {
+      console.error(error);
+      console.error("Error fetching orders");
       return;
     }
   }

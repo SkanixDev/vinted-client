@@ -70,7 +70,7 @@ export async function newToken(
   refresh_token: string,
   access_token: string,
   xcsrf_token: string
-): Promise<[string, string, number]> {
+): Promise<[string, string, number, number]> {
   console.log("fetching new tokens");
   const body = {
     client_id: "web",
@@ -87,15 +87,25 @@ export async function newToken(
       access_token,
       xcsrf_token
     );
-
-    const expiry = (newTokens.created_at + newTokens.expires_in) * 1000;
-    console.log(newTokens);
-
-    return [newTokens.access_token, newTokens.refresh_token, expiry];
+    if (
+      !newTokens.access_token ||
+      !newTokens.refresh_token ||
+      !newTokens.expires_in
+    ) {
+      console.log("error refreshing tokens");
+      console.log(newTokens);
+      return [null, null, null, null];
+    }
+    return [
+      newTokens.access_token,
+      newTokens.refresh_token,
+      newTokens.expires_in,
+      newTokens.created_at,
+    ];
   } catch (error) {
     console.log("error refreshing tokens");
     console.error(error);
-    return [null, null, null];
+    return [null, null, null, null];
   }
 }
 
