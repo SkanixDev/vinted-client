@@ -3,6 +3,10 @@
   "version": "0.0.3",
   "description": "An unofficial API for Vinted",
   "homepage": "https://github.com/SkanixDev/vinted-client",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SkanixDev/vinted-client"
+  },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "type": "module",
