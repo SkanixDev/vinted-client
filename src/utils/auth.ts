@@ -1,10 +1,5 @@
 import fetch from "node-fetch";
 import UserAgent from "user-agents";
-import fs from "fs";
-import path from "path";
-
-//import config.json
-import config from "../config.json" assert { type: "json" };
 
 export const fetchCookie = async (domain = "fr") => {
   const response = await fetch(`https://vinted.${domain}/catalog`, {
@@ -106,47 +101,5 @@ export async function newToken(
     console.log("error refreshing tokens");
     console.error(error);
     return [null, null, null, null];
-  }
-}
-
-export function checkExpiry(expiry: number): boolean {
-  const now = new Date().getTime();
-  return expiry < now;
-}
-
-export async function refreshToken(
-  access_token: string,
-  refresh_token: string,
-  xcsrf_token: string
-) {
-  if (checkExpiry(config.expiry)) {
-    try {
-      const [newAccess, newRefresh, newExpiry] = await newToken(
-        refresh_token,
-        access_token,
-        xcsrf_token
-      );
-
-      config.access_token = newAccess;
-      config.refresh_token = newRefresh;
-      config.expiry = newExpiry;
-      console.log(config);
-      console.log(path.resolve(import.meta.dirname, "../config.json"));
-
-      if (newAccess && newRefresh && newExpiry) {
-        console.log(
-          "\x1b[31m%s\x1b[0m",
-          "tokens refreshed !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-        );
-        fs.writeFileSync(
-          path.resolve(import.meta.dirname, "../config.json"),
-          JSON.stringify(config)
-        );
-      }
-      return true;
-    } catch (error) {
-      console.log(error);
-      return false;
-    }
   }
 }
