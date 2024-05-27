@@ -1,7 +1,8 @@
 {
   "name": "vinted-client",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "An unofficial API for Vinted",
+  "homepage": "https://github.com/SkanixDev/vinted-client",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "type": "module",
@@ -10,7 +11,10 @@
     "start": "node dist/index.js"
   },
   "keywords": [],
-  "author": "Sknaix",
+  "author": {
+    "name": "Skanix",
+    "url": "https://github.com/SkanixDev"
+  },
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^20.12.12",
@@ -19,6 +23,6 @@
   "dependencies": {
     "cookie": "^0.6.0",
     "node-fetch": "^3.3.2",
-    "user-agents": "^1.1.214"
+    "user-agents": "^1.1.217"
   }
 }
