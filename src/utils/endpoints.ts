@@ -116,13 +116,13 @@ export class User {
     this.refresh_token = newRefresh;
     this.expires_in = newExpires_in;
     this.created_at = newCreated_at;
-    console.log("------- Tokens refreshed -------");
-    console.info(
-      this.access_token,
-      this.refresh_token,
-      this.expires_in,
-      this.created_at
-    );
+    // console.log("------- Tokens refreshed -------");
+    // console.info(
+    //   this.access_token,
+    //   this.refresh_token,
+    //   this.expires_in,
+    //   this.created_at
+    // );
   }
 
   async getNotifications(page?: number, per_page?: number) {
