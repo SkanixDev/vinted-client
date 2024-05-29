@@ -3,6 +3,7 @@ import {
   NotificationsInterface,
   OrdersInterface,
   UserInformationsInterface,
+  UserStatsInterface,
 } from "vinted-client";
 import { fetchCookie, newToken } from "./auth.js";
 
@@ -44,7 +45,7 @@ async function getIdUser(
 }
 
 export class User {
-  user: undefined | UserInformationsInterface;
+  data: undefined | UserInformationsInterface;
   balance: undefined | BalanceInterface;
   initialized: boolean;
   created_at: number;
@@ -62,14 +63,14 @@ export class User {
     this.expires_in;
 
     this.initialized = false;
-    this.user = undefined;
+    this.data;
   }
 
   async init() {
     const cookie = await fetchCookie();
     const userid = await getIdUser(cookie, this.access_token, this.xcsrf_token);
 
-    this.user = await this.#fetchUserInformations(userid);
+    this.data = await this.#fetchUserInformations(userid);
     this.balance = await this.#fetchUserBalance(userid);
     this.initialized = true;
     return "User initialized";
@@ -169,6 +170,24 @@ export class User {
     } catch (error) {
       console.error(error);
       console.error("Error fetching orders");
+      return;
+    }
+  }
+  async getStats() {
+    if (!this.initialized) return "User is not initialized";
+    try {
+      this.#refreshToken();
+      const stats = await fetch(
+        `https://www.vinted.fr/api/v2/users/${this.data.user.id}/stats`,
+        {
+          headers: default_headers(this.access_token, this.xcsrf_token),
+          method: "GET",
+        }
+      );
+      const statsJson: UserStatsInterface = await stats.json();
+      return statsJson;
+    } catch (error) {
+      console.error("Error fetching stats");
       return;
     }
   }

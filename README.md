@@ -10,8 +10,6 @@
 
 ## Installation
 
-To install vinted-api, you can use the following command:
-
 ```
 npm install vinted-client
 ```
