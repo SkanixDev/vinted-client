@@ -19,7 +19,7 @@
     "name": "Skanix",
     "url": "https://github.com/SkanixDev"
   },
-  "license": "ISC",
+  "license": "GPL-3.0",
   "devDependencies": {
     "@types/node": "^20.12.12",
     "typescript": "^5.4.5"
