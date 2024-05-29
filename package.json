@@ -1,6 +1,6 @@
 {
   "name": "vinted-client",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "An unofficial API for Vinted",
   "homepage": "https://github.com/SkanixDev/vinted-client",
   "repository": {
@@ -14,7 +14,14 @@
     "build": "tsc",
     "start": "node dist/index.js"
   },
-  "keywords": [],
+  "keywords": [
+    "vinted",
+    "api",
+    "vinted-client",
+    "client",
+    "typescript",
+    "nodejs"
+  ],
   "author": {
     "name": "Skanix",
     "url": "https://github.com/SkanixDev"
