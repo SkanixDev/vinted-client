@@ -35,6 +35,7 @@ Summary:
 - [User](#user)
   - [getNotifications](#getnotifications)
   - [getOrders](#getorders)
+  - [getStats](#getstats)
 
 ### User
 
@@ -61,6 +62,12 @@ Parameters:
 - `status` ("all" | "in_progress" | "completed" | "canceled"): The status of orders to get. Default is `all`.
 - `page` (optional): The page number to get orders from. Default is 1.
 - `per_page` (optional): The number of orders to get per page. Default is 5.
+
+### getStats
+
+```javascript
+await user.getStats();
+```
 
 ## Contact
 
