@@ -51,11 +51,11 @@ export async function authorizedRequest(
     body: JSON.stringify(data),
     method: method,
   });
-  console.log("making an authed request to " + url);
+  // console.log("making an authed request to " + url);
 
-  if (response.headers.get("Content-Type").includes("text/html")) {
-    console.log(response);
-  }
+  // if (response.headers.get("Content-Type").includes("text/html")) {
+  //   console.log(response);
+  // }
   const responseData = await response.json();
 
   return responseData;
@@ -66,7 +66,6 @@ export async function newToken(
   access_token: string,
   xcsrf_token: string
 ): Promise<[string, string, number, number]> {
-  console.log("fetching new tokens");
   const body = {
     client_id: "web",
     scope: "user",
@@ -87,8 +86,6 @@ export async function newToken(
       !newTokens.refresh_token ||
       !newTokens.expires_in
     ) {
-      console.log("error refreshing tokens");
-      console.log(newTokens);
       return [null, null, null, null];
     }
     return [
@@ -98,8 +95,6 @@ export async function newToken(
       newTokens.created_at,
     ];
   } catch (error) {
-    console.log("error refreshing tokens");
-    console.error(error);
     return [null, null, null, null];
   }
 }
