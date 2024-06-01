@@ -191,4 +191,22 @@ export class User {
       return;
     }
   }
+  async getConversation(conversation_id: number) {
+    if (!this.initialized) return "User is not initialized";
+    try {
+      this.#refreshToken();
+      const conversation = await fetch(
+        `https://www.vinted.fr/api/v2/conversations/${conversation_id}`,
+        {
+          headers: default_headers(this.access_token, this.xcsrf_token),
+          method: "GET",
+        }
+      );
+      const conversationJson = await conversation.json();
+      return conversationJson;
+    } catch (error) {
+      console.error("Error fetching conversation");
+      return;
+    }
+  }
 }

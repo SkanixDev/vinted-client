@@ -306,6 +306,161 @@ declare module "vinted-client" {
     };
     code: number;
   }
+  // for conversation
+  interface UserConversationInterface {
+    conversation: {
+      id: number;
+      read_by_current_user: boolean;
+      read_by_opposite_user: boolean;
+      localization: string;
+      translated: boolean;
+      allow_reply: boolean;
+      is_suspicious: boolean;
+      is_deletion_restricted: boolean;
+      subtitle: string;
+      messages: [
+        {
+          // This is not finished
+          entity_type: "status_message" | "message" | "action_message" | string;
+          entity: {
+            template?: {
+              style: "clear_box" | string;
+            };
+            body?: string; // type: message
+            photo?: []; // type: message
+            user_id?: number; // type: message
+            sent_via_mobile: boolean; // type: message
+            id: number; // type: message
+            reaction: any | null; // type: message
+            is_hidden: boolean; // type: message
+
+            title: string | null; // type: status_message
+            subtitle: string | null; // type: status_message
+            notification: string | null; // type: status_message
+            email: boolean | string | null; // type: status_message
+            push: boolean; // type: status_message
+
+            actions?: [
+              | {
+                  action: string;
+                  title: string;
+                  primary: boolean;
+                }
+              | any
+            ]; // type: action_message
+          };
+          created_at_ts: string;
+          created_time_ago: string;
+          display_group?: number;
+        }
+      ];
+      suggested_messages: [];
+      transaction: {
+        id: number;
+        status: number;
+        offline_verification: boolean;
+        offer_id: number;
+        buyer_id: number;
+        seller_id: number;
+        is_completed: boolean;
+        available_actions: [
+          "use_payments" | "feedback" | "delete_thread" | string
+        ];
+        current_user_side: string;
+        is_bundle: boolean;
+        is_reserved: boolean;
+        is_package_size_selected: boolean;
+        is_business_seller: boolean;
+        item_count: number;
+        item_id: number;
+        item_ids: number[];
+        item_title: string;
+        item_photo: ThumbnailVintedInterface;
+        item_url: string;
+        item_is_closed: boolean;
+        offer_price: {
+          amount: string;
+          currency_code: string;
+        };
+        service_fee: {
+          amount: string;
+          currency_code: string;
+        };
+        shipment_price: {
+          amount: string;
+          currency_code: string;
+        };
+        total_without_shipment: {
+          amount: string;
+          currency_code: string;
+        };
+        total_amount_without_tax: string;
+        closet_countdown_end_date: any | null;
+        seller_bundle_discount: any | null;
+        seller_item_count: number | null;
+        seller_city: string;
+        show_ship_fast_badge_education: boolean;
+        shipment_id: number;
+        shipment_status: number;
+        package_size_code: string;
+      };
+      opposite_user: {
+        id: number;
+        login: string;
+        photo: ThumbnailVintedInterface;
+        last_logged_in_at: string;
+        is_system: boolean;
+        review_count: number;
+        feedback_reputation: number | null;
+        is_on_holiday: boolean;
+        is_moderator: boolean;
+        is_user_unblockable: boolean;
+        is_hated: boolean;
+        profile_url: string;
+        location_description: string | null;
+      };
+      education: any | null;
+      moderated_items: any | null;
+      user_has_support_role: any | false;
+      safety_education: boolean;
+      conversation_url: string;
+    };
+    code: number;
+  }
+
+  interface ThumbnailVintedInterface {
+    id: number;
+    image_no: number;
+    width: number;
+    height: number;
+    dominant_color: string;
+    dominant_color_opaque: string;
+    url: string;
+    is_main: boolean;
+    thumbnails: [
+      {
+        type:
+          | "thumb70x100"
+          | "thumb150x210"
+          | "thumb310x430"
+          | "thumb428x624"
+          | "thumb624x428"
+          | "thumb364x428";
+        url: string;
+        width: number;
+        height: number;
+        original_size: any | null;
+      }[]
+    ];
+    high_resolution: {
+      id: string;
+      timestamp: number;
+      orientation: number;
+    };
+    is_suspicious: boolean;
+    full_size_url: string;
+    is_hidden: boolean;
+  }
 
   class User {
     access_token: string;
