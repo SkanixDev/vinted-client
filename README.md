@@ -69,6 +69,27 @@ Parameters:
 await user.getStats();
 ```
 
+### getConversations
+
+```javascript
+await user.getConversations(conversation_id);
+```
+
+Parameters:
+
+- `conversation_id` (number): The ID of the conversation to get.
+
+### getInbox
+
+```javascript
+await user.getInbox(page?, per_page?);
+```
+
+Parameters:
+
+- `page` (optional): The page number to get conversations from. Default is 1.
+- `per_page` (optional): The number of conversations to get per page. Default is 5.
+
 ## Contact
 
 If you have any questions or need further assistance, feel free to contact me on Discord. My tag is `.skanix`. I'm looking forward to hearing from you!
