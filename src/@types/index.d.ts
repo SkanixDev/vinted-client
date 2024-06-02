@@ -224,12 +224,7 @@ declare module "vinted-client" {
           small_photo_url: string | null;
         }[]
       | null;
-    pagination: {
-      current_page: number;
-      total_pages: number;
-      total_entries: number;
-      per_page: number;
-    };
+    pagination: PaginationInterface;
     code: number;
   }
 
@@ -426,6 +421,39 @@ declare module "vinted-client" {
       conversation_url: string;
     };
     code: number;
+  }
+
+  interface InboxInterface {
+    conversations: [
+      {
+        id: number;
+        item_count: number;
+        is_deletion_restricted: boolean;
+        description: string;
+        unread: boolean;
+        updated_at: string;
+        opposite_user: {
+          id: number;
+          login: string;
+          photo: ThumbnailVintedInterface;
+          badge: any | null;
+        };
+        item_photos: ThumbnailVintedInterface[];
+      }
+    ];
+    pagination: PaginationInterface;
+    websocket_user_id: string;
+    code: number;
+  }
+
+  // ------------- Component for other Interface -------------
+
+  interface PaginationInterface {
+    page: number;
+    per_page: number;
+    total_entries: number;
+    total_pages: number;
+    current_page: number;
   }
 
   interface ThumbnailVintedInterface {

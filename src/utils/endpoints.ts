@@ -4,6 +4,8 @@ import {
   OrdersInterface,
   UserInformationsInterface,
   UserStatsInterface,
+  UserConversationInterface,
+  InboxInterface,
 } from "vinted-client";
 import { fetchCookie, newToken } from "./auth.js";
 
@@ -202,10 +204,32 @@ export class User {
           method: "GET",
         }
       );
-      const conversationJson = await conversation.json();
+      const conversationJson: UserConversationInterface =
+        await conversation.json();
       return conversationJson;
     } catch (error) {
       console.error("Error fetching conversation");
+      return;
+    }
+  }
+
+  async getInbox(page?: number, per_page?: number) {
+    if (!this.initialized) return "User is not initialized";
+    try {
+      this.#refreshToken();
+      const inbox = await fetch(
+        `https://www.vinted.fr/api/v2/inbox?page=${page ? page : 1}&per_page=${
+          per_page ? per_page : 5
+        }`,
+        {
+          headers: default_headers(this.access_token, this.xcsrf_token),
+          method: "GET",
+        }
+      );
+      const inboxJson: InboxInterface = await inbox.json();
+      return inboxJson;
+    } catch (error) {
+      console.error("Error fetching inbox");
       return;
     }
   }
