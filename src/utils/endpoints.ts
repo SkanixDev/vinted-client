@@ -1,11 +1,11 @@
 import {
   BalanceInterface,
+  InboxInterface,
   NotificationsInterface,
   OrdersInterface,
+  UserConversationInterface,
   UserInformationsInterface,
   UserStatsInterface,
-  UserConversationInterface,
-  InboxInterface,
 } from "vinted-client";
 import { fetchCookie, newToken } from "./auth.js";
 
