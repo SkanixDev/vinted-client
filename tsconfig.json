@@ -7,5 +7,5 @@
     "outDir": "dist",
     "resolveJsonModule": true
   },
-  "include": ["src/**/*", "config.json"]
+  "include": ["src/**/*", "config.json", "@types"]
 }
