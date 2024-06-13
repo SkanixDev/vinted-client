@@ -36,6 +36,8 @@ Summary:
   - [getNotifications](#getnotifications)
   - [getOrders](#getorders)
   - [getStats](#getstats)
+  - [getConversations](#getconversations)
+  - [getInbox](#getinbox)
 
 ### User
 
