@@ -5,7 +5,8 @@
     "target": "ES6",
     "sourceMap": true,
     "outDir": "dist",
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "declaration": true
   },
-  "include": ["src/**/*", "config.json", "@types"]
+  "include": ["src/**/*", "config.json", "@types", "dist/vinted-client.d.ts"]
 }

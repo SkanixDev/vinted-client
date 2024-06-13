@@ -1,3 +1,1 @@
-import { User } from "./utils/endpoints.js";
-
-export { User };
+export { User } from "./utils/endpoints.js";

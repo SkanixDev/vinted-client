@@ -490,7 +490,7 @@ declare module "vinted-client" {
     is_hidden: boolean;
   }
 
-  class User {
+  interface User {
     access_token: string;
     refresh_token: string;
     xcsrf_token: string;
@@ -505,7 +505,6 @@ declare module "vinted-client" {
       refresh_token: string,
       xcsrf_token: string
     );
-    #refreshToken(): void;
     getNotifications(
       page?: number,
       per_page?: number
