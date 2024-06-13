@@ -490,7 +490,7 @@ declare module "vinted-client" {
     is_hidden: boolean;
   }
 
-  interface User {
+  interface UserInterface {
     access_token: string;
     refresh_token: string;
     xcsrf_token: string;
@@ -508,12 +508,12 @@ declare module "vinted-client" {
     getNotifications(
       page?: number,
       per_page?: number
-    ): Promise<NotificationsInterface>;
+    ): Promise<NotificationsInterface | "User is not initialized">;
     getOrders(
       type: "sold" | "purchased" | "all",
       status: "all" | "in_progress" | "completed" | "canceled",
       page?: number,
       per_page?: number
-    ): Promise<OrdersInterface>;
+    ): Promise<OrdersInterface | "User is not initialized">;
   }
 }

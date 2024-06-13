@@ -5,6 +5,7 @@ import {
   OrdersInterface,
   UserConversationInterface,
   UserInformationsInterface,
+  UserInterface,
   UserStatsInterface,
 } from "vinted-client";
 import { fetchCookie, newToken } from "./auth.js";
@@ -46,7 +47,7 @@ async function getIdUser(
   }
 }
 
-export class User {
+export class User implements UserInterface {
   data: undefined | UserInformationsInterface;
   balance: undefined | BalanceInterface;
   initialized: boolean;
@@ -66,6 +67,17 @@ export class User {
 
     this.initialized = false;
     this.data;
+  }
+  user_id: number;
+  user_informations: UserInformationsInterface;
+  notifications: NotificationsInterface;
+  orders: OrdersInterface;
+  ["constructor"](
+    access_token: string,
+    refresh_token: string,
+    xcsrf_token: string
+  ) {
+    throw new Error("Method not implemented.");
   }
 
   async init() {
