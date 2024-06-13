@@ -8,5 +8,5 @@
     "resolveJsonModule": true,
     "declaration": true
   },
-  "include": ["src/**/*", "config.json", "@types", "dist/vinted-client.d.ts"]
+  "include": ["src/**/*"]
 }
