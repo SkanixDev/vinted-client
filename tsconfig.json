@@ -1,11 +1,11 @@
 {
+  "include": ["src/**/*"],
   "compilerOptions": {
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "moduleResolution": "node",
     "target": "ES6",
     "sourceMap": true,
     "outDir": "dist",
-    "resolveJsonModule": true
-  },
-  "include": ["src/**/*"]
+    "resolveJsonModule": true,
+    "declaration": true
+  }
 }
