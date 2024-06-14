@@ -5,8 +5,7 @@
     "target": "ES6",
     "sourceMap": true,
     "outDir": "dist",
-    "resolveJsonModule": true,
-    "declaration": true
+    "resolveJsonModule": true
   },
   "include": ["src/**/*"]
 }
