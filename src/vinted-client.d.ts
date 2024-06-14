@@ -1,4 +1,4 @@
-declare module "vinted-client" {
+declare module "vinted-client/types" {
   interface UserInformationsInterface {
     user: {
       id: number;

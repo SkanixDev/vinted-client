@@ -1,4 +1,4 @@
-import {
+import type {
   BalanceInterface,
   InboxInterface,
   NotificationsInterface,
@@ -7,7 +7,7 @@ import {
   UserInformationsInterface,
   UserInterface,
   UserStatsInterface,
-} from "vinted-client";
+} from "vinted-client/types";
 import { fetchCookie, newToken } from "./auth.js";
 
 const default_headers = (access_token, xcsrf_token) => {
