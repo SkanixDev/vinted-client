@@ -6,7 +6,7 @@
 
 ## Status
 
-> ⚠️ **Warning: This project is currently under development and is not an official package. Use it at your own risk.**
+> ⚠️ **Warning: This project is no longer maintained.**
 
 ## Installation
 
